@@ -106,6 +106,8 @@ if __name__ == '__main__':
 
     print(classify_image(None, "./test_images/ronaldo1.jpeg"))
     print(classify_image(None, "./test_images/messi1.jpeg"))
+    print(classify_image(None, "./test_images/mbappe1.jpeg"))
+    print(classify_image(None, "./test_images/mbappe2.jpeg"))
     # print(classify_image(None, "./test_images/virat1.jpg"))
     # print(classify_image(None, "./test_images/virat2.jpg"))
     # print(classify_image(None, "./test_images/virat3.jpg")) # Inconsistent result could be due to https://github.com/scikit-learn/scikit-learn/issues/13211

@@ -3,9 +3,86 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Classifier</title>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .left-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        .drag-and-drop {
+            border: 2px dashed black;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-{{ title }}
+    <div class="left-section">
+        <!-- code for left section goes here -->
+        <div class="drag-and-drop" draggable="true">
+            <p>Drag and Drop Image Here</p>
+        </div>
+    </div>
+    <div class="right-section">
+        <!-- code for right section goes here -->
+    </div>
+    <script>
+        const dragAndDrop = document.querySelector('.drag-and-drop');
+        dragAndDrop.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
+        });
+    </script><script>
+        const dragAndDrop = document.querySelector('.drag-and-drop');
+        dragAndDrop.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
+        });
+    </script><script>
+        const dragAndDrop = document.querySelector('.drag-and-drop');
+        dragAndDrop.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
+        });
+    </script><script>
+        const dragAndDrop = document.querySelector('.drag-and-drop');
+        dragAndDrop.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
+        });
+    </script><script>
+        const dragAndDrop = document.querySelector('.drag-and-drop');
+        dragAndDrop.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
+        });
+    </script><script>
+        const dragAndDrop = document.querySelector('.drag-and-drop');
+        dragAndDrop.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
+        });
+    </script><script>
+        const dragAndDrop = document.querySelector('.drag-and-drop');
+        dragAndDrop.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
+        });
+    </script><script>
+        const dragAndDrop = document.querySelector('.drag-and-drop');
+        dragAndDrop.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
+        });
+    </script><script>
+        const dragAndDrop = document.querySelector('.drag-and-drop');
+        dragAndDrop.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
+        });
+    </script><script>
+        const dragAndDrop = document.querySelector('.drag-and-drop');
+        dragAndDrop.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
+        });
+    </script><script>
+        const dragAndDrop = document.querySelector('.drag-and-drop');
+        dragAndDrop.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
+        });
+    </script>
 </body>
 </html>
