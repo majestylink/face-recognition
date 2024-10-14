@@ -8,34 +8,44 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.views import View
+import json
+
+from server.utils.pytorch_util import process_image
+from .models import Person
+
+
 class IndexView(View):
-    # @method_decorator(csrf_exempt)
-    # def dispatch(self, request, *args, **kwargs):
-    #     return super().dispatch(request, *args, **kwargs)
-
     def get(self, request, *args, **kwargs):
-
-        return render(request, 'index.html', {"title": "Majesty"})
+        return render(request, 'index_1.html', {"title": "Majesty"})
 
     def post(self, request):
-        print(request.FILES.get('image', None))
-        # image = request.FILES['image']
-        # print(image)
-        result = {'name': 'Lionel Messi', 'age': 34, 'team': 'Paris Saint-Germain'}
+        # print(request.body)
+        image = request.FILES.get('image', None)
+        print(image, 'line 27')
+        print("In view line 22")
+        if image:
+            print("In view line 30")
+            result = process_image(image)
+            if result == "Person not recognized":
+                persons = [x.name for x in Person.objects.all()]
+                return JsonResponse({'error': 'Person not recognized.', "persons": persons})
+            person = Person.objects.get(label_name=result['predicted_label'])
+            result = {
+                'predicted_label': person.name,
+                'probability_score': result['probability_score'],
+                'predicted_image': request.build_absolute_uri(person.image.url),
+                'date_of_birth': person.birth_year,
+                'profession': person.occupation
+            }
 
-        # Convert the result to a JSON string
-        result_json = json.dumps(result)
+            return JsonResponse(result)
+        else:
+            print("In view line 52")
+            return JsonResponse({'error': 'No image file provided.'})
 
-        person_data = {
-            'name': "predicted_person.name",
-            'age': "predicted_person.age",
-            'place_of_origin': "predicted_person.place_of_origin",
-            'height': "predicted_person.height",
-            'work_history': "predicted_person.work_history",
-            'marital_status': "predicted_person.marital_status",
-            'image_url': "predicted_person.image.url",
-        }
-        return JsonResponse(person_data)
 
     # return JsonResponse({'error': 'Unable to predict person.'})
 

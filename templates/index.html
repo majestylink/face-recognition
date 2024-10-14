@@ -1,88 +1,49 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
+    <title>Face Classifier</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <style>
-        .left-section {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-        }
-        .drag-and-drop {
-            border: 2px dashed black;
-            padding: 20px;
-        }
-    </style>
 </head>
 <body>
-    <div class="left-section">
-        <!-- code for left section goes here -->
-        <div class="drag-and-drop" draggable="true">
-            <p>Drag and Drop Image Here</p>
+    <div class="container">
+        <h1 class="page-title">Face Classifier</h1>
+        <div class="form-container">
+            <form id="upload-form" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="form-group">
+                    <label for="photo">Upload Photo Or Drag and drop an image here</label>
+                    <input type="file" name="image" class="form-control-file" id="photo" accept="image/*" required>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Classify</button>
+            </form>
+        </div>
+        <div id="result" style="display: none;">
+            <br>
+            <hr>
+            <br>
+            <h2>Result:</h2>
+            <div class="card">
+                <div class="card-body">
+                    <div class="result-container">
+                        <div class="image-container">
+                            <img id="predicted-image" class="card-img-top" alt="Predicted Image">
+                        </div>
+                        <div class="details-container">
+                            <h4 style="margin-left: 10px" id="predicted-label" class="card-title"></h4>
+                            <h5 id="probability-score" class="card-title"></h5>
+                            <h5 id="date-of-birth" class="card-title"></h5>
+                            <h5 id="profession" class="card-title"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="right-section">
-        <!-- code for right section goes here -->
-    </div>
-    <script>
-        const dragAndDrop = document.querySelector('.drag-and-drop');
-        dragAndDrop.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
-        });
-    </script><script>
-        const dragAndDrop = document.querySelector('.drag-and-drop');
-        dragAndDrop.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
-        });
-    </script><script>
-        const dragAndDrop = document.querySelector('.drag-and-drop');
-        dragAndDrop.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
-        });
-    </script><script>
-        const dragAndDrop = document.querySelector('.drag-and-drop');
-        dragAndDrop.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
-        });
-    </script><script>
-        const dragAndDrop = document.querySelector('.drag-and-drop');
-        dragAndDrop.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
-        });
-    </script><script>
-        const dragAndDrop = document.querySelector('.drag-and-drop');
-        dragAndDrop.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
-        });
-    </script><script>
-        const dragAndDrop = document.querySelector('.drag-and-drop');
-        dragAndDrop.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
-        });
-    </script><script>
-        const dragAndDrop = document.querySelector('.drag-and-drop');
-        dragAndDrop.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
-        });
-    </script><script>
-        const dragAndDrop = document.querySelector('.drag-and-drop');
-        dragAndDrop.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
-        });
-    </script><script>
-        const dragAndDrop = document.querySelector('.drag-and-drop');
-        dragAndDrop.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
-        });
-    </script><script>
-        const dragAndDrop = document.querySelector('.drag-and-drop');
-        dragAndDrop.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', 'Drag and Drop Image');
-        });
-    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

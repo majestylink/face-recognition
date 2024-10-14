@@ -78,16 +78,16 @@ WSGI_APPLICATION = 'faceClassifier.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-    'default': dj_database_url.parse("postgres://testdb_wx1w_user:W0sKm73Hgi39lkPY7D8uq0o6FJwEOzmH@dpg-chduvd9mbg5afv0p2t1g-a.oregon-postgres.render.com/testdb_wx1w")
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+# DATABASES = {
+#     'default': dj_database_url.parse("postgres://testdb_wx1w_user:W0sKm73Hgi39lkPY7D8uq0o6FJwEOzmH@dpg-chduvd9mbg5afv0p2t1g-a.oregon-postgres.render.com/testdb_wx1w")
+# }
 
 
 # Password validation
@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Lagos'
 
 USE_I18N = True
 
@@ -130,6 +130,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

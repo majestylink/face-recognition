@@ -108,6 +108,9 @@ if __name__ == '__main__':
     print(classify_image(None, "./test_images/messi1.jpeg"))
     print(classify_image(None, "./test_images/mbappe1.jpeg"))
     print(classify_image(None, "./test_images/mbappe2.jpeg"))
+    print(classify_image(None, "./test_images/_128006825_tv039856802.jpg"))
+    print(classify_image(None, "./test_images/79c92bd35a85488faee5b50bb73475ef.jpg"))
+    print(classify_image(None, "./test_images/cristiano-ronaldo-al-nassr-fotomontage-1672437948-99358-1200x720.jpg"))
     # print(classify_image(None, "./test_images/virat1.jpg"))
     # print(classify_image(None, "./test_images/virat2.jpg"))
     # print(classify_image(None, "./test_images/virat3.jpg")) # Inconsistent result could be due to https://github.com/scikit-learn/scikit-learn/issues/13211

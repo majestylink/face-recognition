@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Classifier</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .drop-zone {
+      width: 80%;
+      height: 500px;
+      border: 1px dashed black;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .upload-button {
+      {#display: block;#}
+      margin: 0 auto;
+      width: 100px;
+      height: 50px;
+      background-color: blue;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+    }
+
+    .image-preview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .classify-button {
+        width: 100px;
+        height: 50px;
+        background-color: green;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+      }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="drop-zone">
+      <input type="file" name="image" id="file-input" style="display: none;">
+      <label for="file-input" class="upload-button">Upload Image</label>
+      <img src="" alt="" class="image-preview">
+    </div>
+    <button type="button" class="classify-button">Classify</button>
+
+      <div id="result-container">
+          <!-- The server response will be inserted here -->
+        </div>
+      <div id="not-recognized-message" style="display: none;">
+          <p>The person is not recognized.</p>
+          <p>The model has been trained with a limited dataset, and I am constantly working on improving it.</p>
+          <p>Trained with:</p>
+              <ul>
+                <li>Atiku Abubakar</li>
+                <li>Mohammadu Buhari</li>
+                <li>Cristiano Ronaldo</li>
+                <li>Kylian Mbappe</li>
+                <li>Lionel Messi</li>
+                <li>Peter Obi</li>
+                <li>Bola Tinubu</li>
+              </ul>
+        </div>
+  </div>
+
+  <script>
+    // Make the drop zone draggable
+    const dropZone = document.querySelector('.drop-zone');
+    dropZone.addEventListener('dragover', function(event) {
+      event.preventDefault();
+      this.classList.add('dragging');
+    });
+
+    dropZone.addEventListener('dragleave', function(event) {
+      this.classList.remove('dragging');
+    });
+
+    dropZone.addEventListener('drop', function(event) {
+      event.preventDefault();
+      this.classList.remove('dragging');
+
+      // Get the dropped file
+      const droppedFile = event.dataTransfer.files[0];
+      console.log(droppedFile, '===')
+
+      // Check if the dropped file is an image
+      if (droppedFile.type.startsWith('image/')) {
+          console.log("Line 93")
+        // Display the image in the preview
+        const imagePreview = document.querySelector('.image-preview');
+        imagePreview.src = URL.createObjectURL(droppedFile);
+      }
+    });
+
+    // Change the image preview when the user selects a file
+    const fileInput = document.querySelector('#file-input');
+    console.log(fileInput, "Line 102")
+    fileInput.addEventListener('change', function() {
+      // Get the selected file
+      const selectedFile = this.files[0];
+      console.log(selectedFile)
+
+      // Check if the selected file is an image
+      if (selectedFile.type.startsWith('image/')) {
+        // Display the image in the preview
+        const imagePreview = document.querySelector('.image-preview');
+        imagePreview.src = URL.createObjectURL(selectedFile);
+      }
+    });
+
+    const classifyButton = document.querySelector('.classify-button');
+    classifyButton.addEventListener('click', async () => {
+      const formData = new FormData();
+
+
+      const imageFile = document.querySelector('#file-input').files[0];
+      console.log(imageFile, '=====')
+      formData.append('image', imageFile);
+      console.log(formData)
+
+      const response = await fetch('/', {
+        method: 'POST',
+        body: formData,
+          headers: {
+              'X-CSRFToken': getCookie('csrftoken'),
+            },
+      });
+
+      const data = await response.json();
+      // ...
+        console.log(data)
+
+        const resultContainer = document.getElementById('result-container');
+        const notRecognizedMessage = document.getElementById('not-recognized-message');
+        if ('error' in data) {
+          resultContainer.innerHTML = `<p class="error-message">${data.error}</p>`;
+          notRecognizedMessage.style.display = 'block';
+        } else {
+          resultContainer.innerHTML = `
+            <h2>Predicted Information</h2>
+            <p><strong>Predicted Label:</strong> ${data.predicted_label}</p>
+            <p><strong>Probability Score:</strong> ${data.probability_score.toFixed(4)}</p>
+            <p><strong>Date of Birth:</strong> ${data.date_of_birth}</p>
+            <p><strong>Profession:</strong> ${data.profession}</p>
+            <img src="${data.predicted_image}" alt="Predicted Image">
+          `;
+          notRecognizedMessage.style.display = 'none';
+        }
+    });
+
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
+    function csrfSafeMethod(method) {
+        return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
+    }
+  </script>
+</body>
+</html>

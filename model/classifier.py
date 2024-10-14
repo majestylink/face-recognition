@@ -21,7 +21,16 @@ from sklearn.metrics import classification_report
 
 
 class Classify:
-    img = cv2.imread('./dataset/christiano_ronaldo/download (10).jpeg')
+    NUM_CLASSES = 0  # Add this line
+
+    # img = cv2.imread('./dataset/christiano_ronaldo/download (10).jpeg')
+    try:
+        img = cv2.imread('./dataset/christiano_ronaldo/download (10).jpeg')
+        if img is None:
+            raise Exception("Image file cannot be read.")
+    except Exception as e:
+        print(f"Error: {e}")
+
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     face_cascade = cv2.CascadeClassifier('./opencv/haarcascades/haarcascade_frontalface_default.xml')
@@ -97,6 +106,9 @@ class Classify:
 
     def crop_images(self):
         self.create_dir_for_each_person()
+        self.class_dict["occluded_eyes"] = self.NUM_CLASSES  # Add this line
+        self.NUM_CLASSES += 1  # Increment the number of classes
+        self.celebrity_file_names_dict["occluded_eyes"] = []  # Add this line
 
         for img_dir in self.img_dirs:
             count = 1
@@ -120,6 +132,23 @@ class Classify:
                     cv2.imwrite(cropped_file_path, roi_color)
                     self.celebrity_file_names_dict[celebrity_name].append(cropped_file_path)
                     count += 1
+
+                # Handle images with occluded eyes
+                else:
+                    if celebrity_name != "occluded_eyes":
+                        cropped_folder = self.path_to_cr_data + "occluded_eyes"
+                        if not os.path.exists(cropped_folder):
+                            os.makedirs(cropped_folder)
+                            self.cropped_image_dirs.append(cropped_folder)
+                            print("Generating cropped images in folder: ", cropped_folder)
+
+                        cropped_file_name = "occluded_" + str(count) + ".png"
+                        cropped_file_path = cropped_folder + "/" + cropped_file_name
+
+                        img = cv2.imread(entry.path)  # Load the image
+                        cv2.imwrite(cropped_file_path, img)  # Write the loaded image
+                        self.celebrity_file_names_dict["occluded_eyes"].append(cropped_file_path)
+                        count += 1
 
     def w2d(self, img, mode='haar', level=1):
         imArray = img
@@ -146,8 +175,9 @@ class Classify:
     def map_persons_with_number(self):
         count = 0
         for celebrity_name in self.celebrity_file_names_dict.keys():
-            self.class_dict[celebrity_name] = count
-            count = count + 1
+            if celebrity_name != "occluded_eyes":  # Skip the occluded eyes class/label
+                self.class_dict[celebrity_name] = count
+                count = count + 1
         return self.class_dict
 
     def prepare_x_and_y(self):
@@ -158,9 +188,13 @@ class Classify:
                 scalled_raw_img = cv2.resize(img, (32, 32))
                 img_har = self.w2d(img, 'db1', 5)
                 scalled_img_har = cv2.resize(img_har, (32, 32))
-                combined_img = np.vstack((scalled_raw_img.reshape(32 * 32 * 3, 1), scalled_img_har.reshape(32 * 32, 1)))
+                combined_img = np.vstack(
+                    (scalled_raw_img.reshape(32 * 32 * 3, 1), scalled_img_har.reshape(32 * 32, 1)))
                 X.append(combined_img)
-                y.append(self.class_dict[celebrity_name])
+                if celebrity_name == "occluded_eyes":  # Modify this condition
+                    y.append(self.NUM_CLASSES)  # Assign the new class/label
+                else:
+                    y.append(self.class_dict[celebrity_name])
         X = np.array(X).reshape(len(X), 4096).astype(float)
         return X, y
 

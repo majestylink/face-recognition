@@ -1,53 +1,66 @@
-body {
-  font-family: Arial, sans-serif;
+.card {
+    margin-top: 20px;
 }
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+.result-container {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-h1 {
-  text-align: center;
+.image-container {
+    flex: 1 1 300px; /* Set the desired width for the image column */
 }
 
-#upload-file {
-  display: block;
+.details-container {
+    flex: 1 1 300px; /* Set the desired width for the details column */
 }
 
-#results {
-  display: none;
+.form-container {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    background-color: #f8f8f8; /* Set the background color */
+    transition: background-color 0.3s ease; /* Add transition effect */
 }
 
-.result-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 20px;
+.form-container.dragover {
+    background-color: #eaeaea; /* Set the background color when dragging */
 }
 
-img {
-  max-width: 300px;
-  max-height: 300px;
-  margin-right: 20px;
+.dragover {
+    border-color: #1E90FF;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-  max-width: 500px;
-  margin-top: 20px;
+.drag-info {
+    margin-top: 10px;
+    font-size: 16px;
 }
 
-th, td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+.drag-icon {
+    font-size: 32px;
+    color: #1E90FF;
 }
 
-th {
-  background-color: #f2f2f2;
-  font-weight: normal;
+.drag-text {
+    margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        margin: 0 auto;
+    }
+}
+
+.page-title {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .result-container {
+        flex-direction: column;
+    }
+
+    .image-container, .details-container {
+        flex: 1 1 auto;
+    }
 }
